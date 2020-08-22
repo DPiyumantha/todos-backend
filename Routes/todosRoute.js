@@ -5,7 +5,8 @@ express.urlencoded({ extended: true });
 const router = express.Router();
 const TodoModel = require("../models/Todo");
 
-
+const db =
+  "mongodb+srv://dima:4WneUdGhd16Cl37v@todoscluster.d20zw.mongodb.net/todos?retryWrites=true&w=majority";
 mongoose.connect(process.env.db || db, () => {
   console.log("connected to db");
 });
@@ -18,7 +19,7 @@ router.use(
 
 //Create todo
 router.post("/todos", (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, isCompleted } = req.body;
   if (title == "" || description == "" || !title || !description) {
     res.status(400).send({
       error: "Empty data",
@@ -27,6 +28,7 @@ router.post("/todos", (req, res) => {
     let todo = new TodoModel({
       title,
       description,
+      isCompleted
     });
 
     todo
@@ -60,7 +62,7 @@ router.get("/todos/:id", async (req, res) => {
 //Update a todo
 router.post("/todos/update/:id", (req, res) => {
   const id = req.params.id;
-  const { title, description } = req.body;
+  const { title, description, isCompleted } = req.body;
   if (title == "" || description == "" || !title || !description) {
     res.status(400).send({
       error: "Invalid data",

@@ -68,7 +68,7 @@ router.post("/todos/update/:id", (req, res) => {
       error: "Invalid data",
     });
   } else {
-    TodoModel.updateOne({ _id: id }, { title, description })
+    TodoModel.updateOne({ _id: id }, { title, description, isCompleted })
       .then((data) => {
         console.log(data);
         res.send({ message: "Updated" });

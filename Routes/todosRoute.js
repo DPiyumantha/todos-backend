@@ -43,7 +43,7 @@ router.post("/todos", (req, res) => {
 
 //Read all todos
 router.get("/todos", async (req, res) => {
-  let al = await TodoModel.find();
+  let al = await TodoModel.find().sort({date:-1, isCompleted:1});
   res.send(al);
 });
 
